@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MisterMasta Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Anton', sans-serif;
+            background: radial-gradient(circle at top, #5b1fa3, #1a042d, #000);
+            color: white;
+            text-align: center;
+        }
+
+        .hero {
+            padding: 60px 0;
+        }
+
+        .hero-content {
+            background: rgba(20, 5, 30, 0.8);
+            width: 75%;
+            margin: auto;
+            padding: 60px 30px;
+            border-radius: 30px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 40px rgba(255, 0, 255, 0.3);
+        }
+
+        .profile-circle {
+            width: 120px;
+            height: 120px;
+            margin: auto;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00eaff, #00ff9d);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 42px;
+            font-weight: bold;
+            color: white;
+            box-shadow: 0 0 25px rgba(0, 255, 204, 0.6);
+        }
+
+        .name {
+            margin-top: 20px;
+            font-size: 48px;
+        }
+
+        .role {
+            font-size: 22px;
+            margin-top: 10px;
+            opacity: 0.8;
+        }
+
+        h2 {
+            text-align: left;
+            margin-left: 40px;
+            font-size: 34px;
+            margin-top: 50px;
+        }
+
+        .coming-soon {
+            text-align: left;
+            margin-left: 40px;
+            font-size: 26px;
+            font-weight: bold;
+            opacity: 0.9;
+        }
+
+        .box-container {
+            margin-top: 40px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .box {
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(135deg, #ff29e6, #bd00ff);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 0 25px rgba(255, 0, 255, 0.4);
+            transition: 0.3s;
+        }
+
+        .box:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 35px rgba(255, 0, 255, 0.7);
+        }
+    
+        /* Floating sparkles */
+        .sparkle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.7;
+            animation: floatUp 6s linear infinite;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(1); opacity: 0.8; }
+            100% { transform: translateY(-200px) scale(0.3); opacity: 0; }
+        }
+
+        /* Sparkle container */
+        #sparkle-area {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+
+        /* Hover burst sparkles */
+        .burst-sparkle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: #ffffff;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: burst 0.8s ease-out forwards;
+        }
+
+        @keyframes burst {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: translate(var(--x), var(--y)) scale(0.2); opacity: 0; }
+        }
+
+        /* Neon border glow for boxes */
+        .server-box:hover {
+            box-shadow: 0 0 25px #ff3df5, 0 0 45px #ff3df5;
+            transition: 0.25s ease-out;
+        }
+
+        /* Mouse trail particles */
+        .trail {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            background: #ff66ff;
+            border-radius: 50%;
+            opacity: 0.7;
+            pointer-events: none;
+            animation: fadeTrail 0.5s linear forwards;
+        }
+
+        @keyframes fadeTrail {
+            from { opacity: 0.9; transform: scale(1); }
+            to { opacity: 0; transform: scale(0.2); }
+        }
+
+        /* Orbit glow around profile */
+        .profile-circle {
+            position: relative;
+            overflow: visible;
+        }
+
+        .profile-circle::after {
+            content: "";
+            position: absolute;
+            top: -15px;
+            left: -15px;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 3px solid #ff49f6;
+            animation: orbit 6s linear infinite;
+            opacity: 0.4;
+        }
+
+        @keyframes orbit {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+
+        /* Starfield background */
+        .star {
+            position: fixed;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.8;
+            animation: starFloat 10s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes starFloat {
+            0% { transform: translateY(0); opacity: 0.8; }
+            100% { transform: translateY(-800px); opacity: 0; }
+        }
+
+        /* Floating shapes */
+        .float-shape {
+            position: fixed;
+            width: 35px;
+            height: 35px;
+            background: rgba(255, 72, 255, 0.25);
+            border: 2px solid rgba(255, 72, 255, 0.5);
+            border-radius: 12px;
+            animation: floatShape 12s infinite ease-in-out;
+            pointer-events: none;
+        }
+
+        @keyframes floatShape {
+            0% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-60px) rotate(180deg); }
+            100% { transform: translateY(0) rotate(360deg); }
+        }
+
+        /* Neon border glow around full page */
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 4px solid #ff3cf6;
+            border-radius: 20px;
+            pointer-events: none;
+            box-shadow: 0 0 25px #ff3cf6, inset 0 0 25px #ff3cf6;
+            animation: borderPulse 4s ease-in-out infinite;
+        }
+
+        @keyframes borderPulse {
+            0% { opacity: 0.4; }
+            50% { opacity: 1; }
+            100% { opacity: 0.4; }
+        }
+
+
+        /* Intro overlay */
+        #intro {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(20, 0, 30, 0.95);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            z-index: 9999;
+            animation: introFade 3s forwards;
+        }
+
+        #intro h1 {
+            font-size: 60px;
+            font-family: 'Anton', sans-serif;
+            color: #ff4dff;
+            letter-spacing: 5px;
+            opacity: 0;
+            animation: textPop 1.2s forwards;
+        }
+
+        #intro p {
+            margin-top: 20px;
+            font-size: 22px;
+            color: #ffffff;
+            opacity: 0;
+            animation: textFade 2s forwards 1.3s;
+        }
+
+        @keyframes textPop {
+            0% { transform: scale(0.6); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes textFade {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        @keyframes introFade {
+            0% { opacity: 1; }
+            70% { opacity: 1; }
+            100% { opacity: 0; visibility: hidden; }
+        }
+
+        /* 3D Hover Tilt */
+        .server-box {
+            transform-style: preserve-3d;
+            transition: transform 0.2s ease-out;
+        }
+
+        .server-box:hover {
+            transform: rotateX(10deg) rotateY(-10deg) scale(1.05);
+        }
+
+        /* Section transition fade */
+        .fade-section {
+            opacity: 0;
+            animation: fadeIn 1.4s forwards;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+
+        /* Corner glow lights */
+        .corner-glow {
+            position: fixed;
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle, rgba(255,0,255,0.6), transparent 70%);
+            pointer-events: none;
+            z-index: 5;
+        }
+        #glow-tl { top: 0; left: 0; }
+        #glow-tr { top: 0; right: 0; }
+        #glow-bl { bottom: 0; left: 0; }
+        #glow-br { bottom: 0; right: 0; }
+
+        /* Scanning neon line */
+        #scan-line {
+            position: fixed;
+            top: -100px;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, #ff66ff, transparent);
+            z-index: 9998;
+            animation: scanMove 3s ease-out;
+        }
+        @keyframes scanMove {
+            0% { top: -100px; opacity: 0; }
+            20% { opacity: 1; }
+            100% { top: 100%; opacity: 0; }
+        }
+
+        /* Landing bounce animation for your name */
+        .name {
+            animation: namePop 1.3s ease-out;
+        }
+        @keyframes namePop {
+            0% { transform: translateY(-60px) scale(0.7); opacity: 0; }
+            60% { transform: translateY(10px) scale(1.1); opacity: 1; }
+            100% { transform: translateY(0) scale(1); }
+        }
+
+        /* Pulse thump synced glow */
+        .hero-content {
+            animation: thump 3s infinite ease-in-out;
+        }
+        @keyframes thump {
+            0%,100% { box-shadow: 0 0 25px #ff33ff55; }
+            50% { box-shadow: 0 0 60px #ff33ffcc; }
+        }
+
+
+        /* Parallax background layers */
+        .parallax-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background-repeat: no-repeat;
+            background-size: cover;
+            opacity: 0.25;
+            z-index: -5;
+        }
+        #para1 { background-image: url(''); animation: paraFloat1 18s infinite linear; }
+        #para2 { background-image: url(''); animation: paraFloat2 22s infinite linear; opacity: 0.2; }
+
+        @keyframes paraFloat1 {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-25px); }
+            100% { transform: translateY(0px); }
+        }
+        @keyframes paraFloat2 {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(35px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* Pulsing full-page neon border */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 4px solid magenta;
+            box-shadow: 0 0 25px magenta;
+            animation: borderPulse 5s infinite ease-in-out;
+            pointer-events: none;
+            z-index: 9997;
+        }
+        @keyframes borderPulse {
+            0%,100% { opacity: 0.6; }
+            50% { opacity: 1; box-shadow: 0 0 50px magenta; }
+        }
+
+        /* Click SFX highlight */
+        .server-box:active {
+            transform: scale(0.92) rotateX(2deg);
+            filter: brightness(1.3);
+        }
+/* Neon grid floor */
+        .grid-floor {
+            position: absolute;
+            bottom: -40px;
+            left: 0;
+            width: 100%;
+            height: 300px;
+            background-image: linear-gradient(rgba(255,0,255,0.3) 2px, transparent 2px),
+                              linear-gradient(90deg, rgba(255,0,255,0.3) 2px, transparent 2px);
+            background-size: 40px 40px;
+            transform: perspective(700px) rotateX(75deg);
+            opacity: 0.4;
+            animation: gridGlow 4s infinite alternate;
+        }
+        @keyframes gridGlow {
+            0% { opacity: 0.3; }
+            100% { opacity: 0.7; }
+        }
+
+        /* Floating hologram rings */
+        .holo-ring {
+            position: absolute;
+            width: 180px;
+            height: 180px;
+            border: 3px solid rgba(255,0,255,0.5);
+            border-radius: 50%;
+            animation: holoFloat 6s infinite ease-in-out;
+            filter: blur(1px);
+            pointer-events: none;
+        }
+        @keyframes holoFloat {
+            0% { transform: translateY(0); opacity: 0.5; }
+            50% { transform: translateY(-40px); opacity: 1; }
+            100% { transform: translateY(0); opacity: 0.5; }
+        }
+
+        /* Crown shine */
+        .profile-circle::before {
+            content: "";
+            position: absolute;
+            top: -55px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 40px;
+            background: url('https://i.imgur.com/4JpF7Ud.png') no-repeat center/contain;
+            animation: crownShine 3s infinite;
+            opacity: 0.9;
+        }
+        @keyframes crownShine {
+            0% { filter: brightness(0.8); }
+            50% { filter: brightness(2); }
+            100% { filter: brightness(0.8); }
+        }
+</style>
+</head>
+
+<body>
+    <div id="para1" class="parallax-layer"></div>
+    <div id="para2" class="parallax-layer"></div>
+    <div id="scan-line"></div>
+    <div id="glow-tl" class="corner-glow"></div>
+    <div id="glow-tr" class="corner-glow"></div>
+    <div id="glow-bl" class="corner-glow"></div>
+    <div id="glow-br" class="corner-glow"></div>
+
+    <div id="intro">
+        <h1>MISTERMASTA</h1>
+        <p>Loading your Universe...</p>
+    </div>
+
+    <div class="hero">
+        <div class="hero-content">
+            <div class="profile-circle">MM</div>
+            <div class="name">MisterMasta</div>
+            <div class="role">Creator, Staff & Helper</div>
+
+            <h2>MY PROJECT</h2>
+            <div class="coming-soon">COMING SOON</div>
+
+            <h2>MOD / STAFF</h2>
+
+            <div class="box-container">
+                <a class="box" href="https://discord.gg/ahmedgamingera" target="_blank">Ahmed Gaming Era</a>
+                <a class="box" href="https://discord.gg/HxH7hT4TYf" target="_blank">The Hangout Hub</a>
+                <a class="box" href="https://discord.gg/H97xm6FU8w" target="_blank">Global Listing</a>
+                <a class="box" href="https://discord.gg/fCrrYrpXTx" target="_blank">Controller Chronicle</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="sparkle-area"></div>
+
+<script>
+    function makeSparkle() {
+        const sparkle = document.createElement('div');
+        sparkle.classList.add('sparkle');
+
+        sparkle.style.left = Math.random() * window.innerWidth + 'px';
+        sparkle.style.top = (window.innerHeight - 20) + 'px';
+        sparkle.style.animationDuration = (4 + Math.random() * 4) + 's';
+        sparkle.style.opacity = 0.3 + Math.random() * 0.7;
+
+        document.getElementById('sparkle-area').appendChild(sparkle);
+        setTimeout(() => sparkle.remove(), 8000);
+    }
+
+    setInterval(makeSparkle, 300);
+
+
+    /* Burst sparkles on button hover */
+    const buttons = document.querySelectorAll('.server-box');
+
+    buttons.forEach(btn => {
+        btn.addEventListener('mouseenter', (e) => {
+            for (let i = 0; i < 10; i++) {
+                const s = document.createElement('div');
+                s.classList.add('burst-sparkle');
+
+                const angle = Math.random() * Math.PI * 2;
+                const distance = 40 + Math.random() * 40;
+
+                s.style.setProperty('--x', Math.cos(angle) * distance + 'px');
+                s.style.setProperty('--y', Math.sin(angle) * distance + 'px');
+
+                s.style.left = (e.clientX - 4) + 'px';
+                s.style.top = (e.clientY - 4) + 'px';
+
+                document.body.appendChild(s);
+
+                setTimeout(() => s.remove(), 900);
+            }
+        });
+    });
+
+    /* Mouse trail effect */
+    document.addEventListener('mousemove', (e) => {
+        const dot = document.createElement('div');
+        dot.classList.add('trail');
+        dot.style.left = e.pageX + 'px';
+        dot.style.top = e.pageY + 'px';
+        document.body.appendChild(dot);
+        setTimeout(() => dot.remove(), 600);
+    });
+
+
+
+    /* Generate starfield */
+    for (let i = 0; i < 80; i++) {
+        const star = document.createElement('div');
+        star.classList.add('star');
+        star.style.left = Math.random() * window.innerWidth + 'px';
+        star.style.top = Math.random() * window.innerHeight + 'px';
+        star.style.animationDuration = (6 + Math.random() * 6) + 's';
+        document.body.appendChild(star);
+    }
+
+    /* Floating shapes */
+    for (let i = 0; i < 10; i++) {
+        const shape = document.createElement('div');
+        shape.classList.add('float-shape');
+        shape.style.left = Math.random() * window.innerWidth + 'px';
+        shape.style.top = Math.random() * window.innerHeight + 'px';
+        shape.style.animationDelay = Math.random() * 5 + 's';
+        document.body.appendChild(shape);
+    }
+
+
+
+    /* Section fade-in */
+    window.addEventListener('load', () => {
+        document.querySelectorAll('.fade-section').forEach(sec => {
+            sec.classList.add('fadeNow');
+        });
+    });
+
+</script>
+
+    <audio id="intro-sound" src="https://cdn.pixabay.com/audio/2022/03/15/audio_bf0201ad9b.mp3"></audio>
+    <script>
+        const introSound = document.getElementById('intro-sound');
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                introSound.volume = 0.4;
+                introSound.play().catch(()=>{});
+            }, 300);
+        });
+    </script>
+<div class="grid-floor"></div>
+<script>
+    /* Floating hologram rings */
+    for (let i = 0; i < 3; i++) {
+        const ring = document.createElement('div');
+        ring.classList.add('holo-ring');
+        ring.style.left = (20 + i * 30) + '%';
+        ring.style.top = (60 + i * 5) + '%';
+        ring.style.animationDelay = (i * 1.5) + 's';
+        document.body.appendChild(ring);
+    }
+
+    /* Click particle explosion */
+    document.addEventListener('click', (e) => {
+        for (let i = 0; i < 15; i++) {
+            const p = document.createElement('div');
+            p.classList.add('burst-sparkle');
+            const angle = Math.random() * Math.PI * 2;
+            const dist = 60 + Math.random() * 60;
+            p.style.setProperty('--x', Math.cos(angle) * dist + 'px');
+            p.style.setProperty('--y', Math.sin(angle) * dist + 'px');
+            p.style.left = e.clientX + 'px';
+            p.style.top = e.clientY + 'px';
+            document.body.appendChild(p);
+            setTimeout(() => p.remove(), 900);
+        }
+    });
+</script>
+</body>
+</html>
+
